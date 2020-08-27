@@ -1,6 +1,11 @@
 
 import config
+import logging
+
 from aiogram import Bot, Dispatcher, executor, types
+
+# задаем уровень логов
+logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=config.TELEGRAM_API_TOKEN)
 dp = Dispatcher(bot)
