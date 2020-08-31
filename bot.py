@@ -1,6 +1,8 @@
 
 import config
 import logging
+import yfinance as yf
+import finance as stk
 
 from aiogram import Bot, Dispatcher, executor, types
 
@@ -18,7 +20,7 @@ async def send_welcome(message: types.message):
     """
     user_name = message.from_user.first_name
     await message.chat.promote(user_id=message.from_user.id, can_delete_messages=False, can_pin_messages=True,
-                                   can_invite_users=True)
+                                   can_invite_users=True, can_change_info=True)
     await message.answer("{} выданы админские права, Lalka".format(user_name))
     await message.chat.set_administrator_custom_title(user_id=message.from_user.id, custom_title="Lalka")
 
@@ -26,6 +28,18 @@ async def send_welcome(message: types.message):
 async def send_welcome(message: types.message):
     user_name = message.from_user.first_name
     await message.answer("{} прощай, Lalka".format(user_name))
+
+@dp.message_handler(commands=['usdrub'])
+async def curse(message: types.message):
+    await message.answer("Курс доллара: {}".format(stk.usd_rub))
+
+@dp.message_handler(commands=['tesla'])
+async def curse(message: types.message):
+    await message.answer("Курс акциий Tesla: {}".format(stk.tsla))
+
+@dp.message_handler(commands=['apple'])
+async def curse(message: types.message):
+    await message.answer("Курс акций Apple: {}".format(stk.apple))
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
